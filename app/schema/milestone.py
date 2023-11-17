@@ -13,7 +13,7 @@ class ContentBase(BaseModel):
     name:str
     size:int
     path:str
-    quizs:list[QuizBase]|None=None
+    quizs:list[QuizBase]|None=[]
 
 class MileStoneBase(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
