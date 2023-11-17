@@ -33,6 +33,7 @@ def read_all(room_id:str):
     room_col=read_db("room")
     milestone_list=room_col.find_one({"_id":ObjectId(room_id)})
     if (milestone_list):
+        print(list(read_db("milestone").find({"_id":{"$in":milestone_list["milestone"]}})))
         return list(read_db("milestone").find({"_id":{"$in":milestone_list["milestone"]}}))
     else:
         return []

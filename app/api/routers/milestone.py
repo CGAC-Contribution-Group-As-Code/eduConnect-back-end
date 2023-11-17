@@ -8,12 +8,12 @@ router = APIRouter(prefix="/milestone",tags=["milestone"])
 def create_milestone(room_id:str,info : MileStoneBase):
     create(info,room_id)
 
-@router.get("/",response_model=list[MileStoneBase])
+@router.get("/",response_model=list[ReadMileStoneBase])
 def read_all_milestone(room_id:str):
     print("ㅇㅇㅇ")
     return read_all(room_id)
 
-@router.get("/{milestone_id}",response_model=MileStoneBase,response_model_exclude=["contents"])
+@router.get("/{milestone_id}",response_model=MileStoneBase)
 def read_milestone(milestone_id:str):
     print("ㅋㅋㅋ")
     return read(milestone_id)
