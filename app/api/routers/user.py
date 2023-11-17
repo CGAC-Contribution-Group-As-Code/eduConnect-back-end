@@ -31,13 +31,25 @@ def login(info: Login):
 @router.get("/feedback")
 def read_user_info(room_id:str=None):
     return_user_list=[]
+
     if room_id:
         conn = read_db("room")
         users = conn.find_one({"_id":ObjectId(room_id)})['member']
         for i in users:
             temp=read_user(i['_id'])
             if temp['role']==0:
-                return_user_list.append(temp)
+                user_feedback={
+                    'u_id':temp["user_id"],
+                    'ai_feedback':[],
+                    'user_feedback':[]
+                }
+                if "feedback" in temp:
+                    for j in temp["feedback"]:
+                        if j["is_ai"]:
+                            user_feedback['ai_feedback'].append(j["feedback"])
+                        else:
+                            user_feedback['user_feedback'].append(j["feedback"])
+                return_user_list.append(user_feedback)
     return return_user_list
 
 @router.post("/feedback")
