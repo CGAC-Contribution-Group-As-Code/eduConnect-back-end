@@ -20,4 +20,4 @@ class MileStoneBase(BaseModel):
     name: str
     desc:str
     last_modify: datetime|None=None
-    contents:list[ContentBase]|None=None
+    contents:list[ContentBase]|None=[]
