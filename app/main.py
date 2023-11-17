@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api.routers import user,room
+from .api.routers import user,room,milestone
 app = FastAPI()
 
 #CORS(https://www.jasonchoi.dev/posts/fastapi/cors-allow-setting)
@@ -22,3 +22,4 @@ app.add_middleware(
 
 app.include_router(user.router)
 app.include_router(room.router)
+app.include_router(milestone.router)
