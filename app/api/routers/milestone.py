@@ -9,8 +9,8 @@ def read_all_milestone(room_id:str):
     return read_all(room_id)
 
 @router.post("/")
-def create_milestone(info : MileStoneBase):
-    create(info)
+def create_milestone(room_id:str,info : MileStoneBase):
+    create(info,room_id)
 
 @router.post("/{milestone_id}/content")
 def create_cont(milestone_id:str, file:UploadFile):
