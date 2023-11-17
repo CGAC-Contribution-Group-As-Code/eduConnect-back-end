@@ -23,5 +23,5 @@ def login(info: Login):
     return {
         '_id': str(user[0]['_id']),
         'user_id': user[0]['user_id'],
-        'teacher': user[0]['teacher']
+        'role': user[0]['role']
     }
