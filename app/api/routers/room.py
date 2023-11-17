@@ -35,6 +35,10 @@ def read_room(info: CreateQuestion):
 def read_room(info: CreateAnswer):
     return crud_room.create_answer(info)
 
+@router.post("/ai-answer")
+def read_room(q_id:str,question:str):
+    return crud_room.create_aianswer(q_id,question)
+
 # @router.get("/{room_id}/task")
 # def read_round(room_id: str):
 #     return crud_room.read_round(room_id)

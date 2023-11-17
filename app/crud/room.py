@@ -1,3 +1,5 @@
+import json
+from app.core.chatgpt import ask_ai
 from app.crud.base import read_db
 from bson.objectid import ObjectId
 from datetime import datetime
@@ -80,5 +82,31 @@ class CrudRoom():
             }}})
         return True
 
+    def create_aianswer(self,q_id:str,question:str):
+        conn = read_db("Question")
+        conn.update_one({"_id": ObjectId(q_id)}, 
+            {"$push": {"answer": {
+                "ans_time": datetime.now(),
+                "ans_writer": "AI",
+                "answer": self.create_aians(question)
+            }}})
+        return True
     
+    def create_aians(self,question:str):
+        answer_prompt='''
+    %s
+
+    주어진 질문에 대한 자세한 답변을 반드시 형식에 맞게 대답해주세요.
+    '''%(question)
+        answer_template = '''
+    당신은 선생님입니다.
+    당신은 주어진 질문에 대한 답변을 다음과 같은 형식으로 제공합니다.
+    {
+        "answer": "<답변>"
+    }
+    '''
+        result=ask_ai(answer_prompt,answer_template)
+        json_result=json.loads(result)
+        return json_result["answer"]
+
 crud_room  = CrudRoom()
