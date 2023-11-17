@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv(verbose=True,override=True)
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .api.routers import user,room,milestone
