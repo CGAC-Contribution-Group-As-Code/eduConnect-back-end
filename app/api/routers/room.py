@@ -20,3 +20,8 @@ def create_room(info: CreateRoom):
 @router.get("/{room_id}")
 def read_room(room_id: str):
     return crud_room.read_room(room_id)
+
+# 해당 id의 room의 질문리스트
+@router.get("/{room_id}/questions")
+def read_room(room_id: str):
+    return crud_room.read_questions(room_id)

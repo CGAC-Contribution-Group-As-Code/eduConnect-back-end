@@ -20,8 +20,10 @@ class CrudRoom():
         conn.insert_one({
             "name": info.name,
             "desc": info.desc,
-            "teacher": "CGAC",
-            "member": info.student
+            "teacher": info.teacher,
+            "member": info.student,
+            "milestone": [],
+            "question": []
         })
         return True
     
@@ -31,14 +33,26 @@ class CrudRoom():
         room = conn.find({ "_id": ObjectId(room_id)})
         room = list(room)[0]
         room['_id'] = str(room['_id'])
-        
-        # milestone = []
-        # conn = read_db("milestone")
-        # for value in room['milestone']:
-        #     result = conn.find({ "_id":value})
-        #     result = list(result)[0]
-        #     print(result)
 
+    def read_questions(self, room_id):
+        conn = read_db("room")
+        room = conn.find({ "_id": ObjectId(room_id)})
+        room = list(room)[0]
+
+        conn = read_db("Question")
+        question = []
+        for i in room['question']:
+            result = conn.find({ "_id": i})
+            result = list(result)
+            question.append({
+                'writer': result[0]['writer'],
+                'time': result[0]['time'],
+                'title': result[0]['title'],
+                'desc': result[0]['desc'],
+                'answer': result[0]['answer'] 
+            })
+        print(question)
+        return question
 
     
 crud_room  = CrudRoom()
