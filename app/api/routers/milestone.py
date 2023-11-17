@@ -29,3 +29,11 @@ def read_cont(milestone_id:str):
 @router.get("/{milestone_id}/content/{content_id}")
 def read_cont(milestone_id:str,content_id:str):
     return read_content(milestone_id,content_id)
+
+@router.post("/{milestone_id}/content/{content_id}/aiquiz")
+def read_cont(type:str,milestone_id:str,content_id:str):
+    return create_quiz(type,milestone_id,content_id)
+
+@router.post("/{milestone_id}/content/{content_id}/quiz")
+def read_cont(quizs:list[QuizBase],milestone_id:str,content_id:str):
+    return save_quiz(milestone_id,content_id,quizs)
