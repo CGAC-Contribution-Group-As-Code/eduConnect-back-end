@@ -1,5 +1,5 @@
 from app.crud.room import crud_room
-from app.schema.room import CreateRoom
+from app.schema.room import *
 from fastapi import APIRouter
 from app.crud.base import read_db
 
@@ -25,3 +25,12 @@ def read_room(room_id: str):
 @router.get("/{room_id}/questions")
 def read_room(room_id: str):
     return crud_room.read_questions(room_id)
+
+# 해당 id의 room에 질문 업로드
+@router.post("/questions")
+def read_room(info: CreateQuestion):
+    return crud_room.create_questions(info)
+
+@router.post("/answer")
+def read_room(info: CreateAnswer):
+    return crud_room.create_answer(info)

@@ -1,5 +1,6 @@
 from app.crud.base import read_db
 from bson.objectid import ObjectId
+from datetime import datetime
 
 class CrudRoom():
     def read_all_room(self):
@@ -44,15 +45,40 @@ class CrudRoom():
         for i in room['question']:
             result = conn.find({ "_id": i})
             result = list(result)
+            answer = list(result[0]['answer'] )
             question.append({
+                '_id': str(result[0]['_id']),
                 'writer': result[0]['writer'],
                 'time': result[0]['time'],
-                'title': result[0]['title'],
                 'desc': result[0]['desc'],
-                'answer': result[0]['answer'] 
+                'answer': answer[::-1]
             })
-        print(question)
-        return question
+        return question[::-1]
+
+    def create_questions(self, info):
+        conn = read_db("Question")
+        id = conn.insert_one({
+            "writer": info.writer,
+            "desc": info.desc,
+            "time": datetime.now(),
+            "answer": []
+        }).inserted_id
+
+        conn = read_db("room")
+        conn.update_one({"_id": ObjectId(info.room_id)}, 
+            {"$push": {"question": id}})
+        return True
+
+    def create_answer(self, info):
+        print(info)
+        conn = read_db("Question")
+        conn.update_one({"_id": ObjectId(info.question_id)}, 
+            {"$push": {"answer": {
+                "ans_time": datetime.now(),
+                "ans_writer": info.ans_writer,
+                "answer": info.answer
+            }}})
+        return True
 
     
 crud_room  = CrudRoom()
