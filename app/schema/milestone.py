@@ -1,6 +1,8 @@
 from datetime import datetime
-from pydantic import BaseModel
-from fastapi import UploadFile
+from typing import Annotated, Optional
+from pydantic import BaseModel, BeforeValidator, Field
+
+PyObjectId = Annotated[str, BeforeValidator(str)]
 
 class QuizBase(BaseModel):
     main_text:str
@@ -14,8 +16,8 @@ class ContentBase(BaseModel):
     quizs:list[QuizBase]|None=None
 
 class MileStoneBase(BaseModel):
-    _id: str    
-    title: str
+    id: Optional[PyObjectId] = Field(alias="_id", default=None)
+    name: str
     desc:str
-    last_modify: datetime
+    last_modify: datetime|None=None
     contents:list[ContentBase]|None=None

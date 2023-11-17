@@ -10,7 +10,7 @@ def read_all():
     return data.find()
 
 def create(milestone:MileStoneBase):
+    milestone.last_modify=datetime.now()
     db=read_db("milestone")
     id=db.insert_one(milestone.model_dump()).inserted_id
-    if os.path.exists(os.path.join(os.getenv("MILESTONE_PATH"),id)):
-        os.mkdir(os.path.join(os.getenv("MILESTONE_PATH"),id))
+    print(id)

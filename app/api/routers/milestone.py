@@ -10,5 +10,4 @@ def read_all_milestone():
 
 @router.post("/")
 def create_milestone(info : MileStoneBase):
-    print(info)
-    # create(info)
+    create(info)
