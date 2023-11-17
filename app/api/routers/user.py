@@ -52,6 +52,32 @@ def read_user_info(room_id:str=None):
                 return_user_list.append(user_feedback)
     return return_user_list
 
+@router.get("/feedback/user")
+def read_user_info(user_id:str):
+    user_info = read_db("user").find_one({"user_id":user_id})
+    user_feedback={
+        'user':[],
+        'ai':[]
+    }
+    if "feedback" in user_info:
+        for j in user_info["feedback"]:
+            if j["is_ai"]:
+                mile_name=read_db("milestone").find_one({"_id":ObjectId(j["milestone_id"])})
+                num=1
+                for k in range(len(mile_name["contents"])):
+                    if j["content_id"] in mile_name["contents"][k]['path']:
+                        break
+                    num+=1
+                
+                user_feedback['ai'].append({
+                "milestoneName":mile_name["name"],
+                "quizNum":str(num),
+                "feedback":j["feedback"]
+                })
+            else:
+                user_feedback['user'].append({"feedback":j["feedback"]})
+    return user_feedback
+
 @router.post("/feedback")
 def read_user_info(user_id:str,feedback:Feedback):
     collection=read_db("user")

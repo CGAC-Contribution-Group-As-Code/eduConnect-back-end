@@ -8,3 +8,4 @@ def read_user(user_id:str):
     temp = read_db("user").find_one({"_id":ObjectId(user_id)})
     temp['_id']=str(temp['_id'])
     return temp
+
