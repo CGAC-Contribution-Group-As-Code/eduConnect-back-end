@@ -1,3 +1,4 @@
+from app.schema.user import Login
 from fastapi import APIRouter
 from app.crud.base import read_db
 
@@ -13,3 +14,14 @@ def read_all_user():
         user['_id'] = str(user['_id'])
         user_list.append(user)
     return user_list
+
+@router.post("/login")
+def login(info: Login):
+    conn = read_db("user")
+    user = conn.find({ "user_id":info.id, "pw": info.pw } )
+    user = list(user)
+    return {
+        '_id': str(user[0]['_id']),
+        'user_id': user[0]['user_id'],
+        'teacher': user[0]['teacher']
+    }
